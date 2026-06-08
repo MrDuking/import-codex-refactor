@@ -285,7 +285,7 @@
               <option value="cliproxyapi">CLIProxyAPI</option>
             </select>
           </div>
-          <div>
+          <div id="dbPathGroup">
             <label for="dbPath">
               Đường dẫn DB (tự dò)
               <span id="dbBackendBadge" style="font-size:0.7rem;padding:0.05rem 0.4rem;border-radius:4px;background:rgba(61,156,240,0.15);color:var(--accent);margin-left:0.35rem;display:none">sqlite</span>
@@ -293,7 +293,7 @@
             <input type="text" id="dbPath" value="" autocomplete="off" placeholder="%APPDATA%\\9router\\db.json" />
             <p class="meta" id="dbPathHint">Tự động tìm <code>data.sqlite</code> hoặc <code>db.json</code> trong <code>%APPDATA%\9router\</code>. Đổi nếu bạn muốn ghi vào file khác.</p>
           </div>
-          <div>
+          <div id="urlGroup">
             <label for="url">URL 9router (kiểm tra trạng thái)</label>
             <input type="text" id="url" value="http://127.0.0.1:20128" autocomplete="off" />
           </div>
@@ -305,7 +305,7 @@
           <p class="meta">JSON auth file sẽ được ghi vào thư mục này. CLIProxyAPI sẽ tự hot-reload, không cần restart.</p>
         </div>
 
-        <div class="check-row">
+        <div class="check-row" id="forceStopRow">
           <input type="checkbox" id="forceStop" checked />
           <label for="forceStop" style="margin:0;color:var(--text);font-size:0.9rem;cursor:pointer">
             Tự động dừng &amp; khởi động lại 9router
@@ -400,11 +400,14 @@
     const drop = document.getElementById('drop');
     const fileInput = document.getElementById('fileInput');
     const providerEl = document.getElementById('provider');
+    const dbPathGroup = document.getElementById('dbPathGroup');
     const dbPathEl = document.getElementById('dbPath');
     const authDirEl = document.getElementById('authDir');
     const dbBackendBadge = document.getElementById('dbBackendBadge');
+    const urlGroup = document.getElementById('urlGroup');
     const urlEl = document.getElementById('url');
     const cliproxyFields = document.getElementById('cliproxyFields');
+    const forceStopRow = document.getElementById('forceStopRow');
     const forceStopHint = document.getElementById('forceStopHint');
 
     // Auto-fill the detected DB path on first load. The server injects it
@@ -755,13 +758,15 @@
         hideOverlay();
       }
     });
-  </script>
-</body>
-</html>
+
     function syncProviderUi() {
       const provider = providerEl.value || '9router';
       const isCliProxy = provider === 'cliproxyapi';
       cliproxyFields.hidden = !isCliProxy;
+      if (dbPathGroup) dbPathGroup.hidden = isCliProxy;
+      if (urlGroup) urlGroup.hidden = isCliProxy;
+      if (forceStopRow) forceStopRow.hidden = isCliProxy;
+      if (forceStopHint) forceStopHint.hidden = isCliProxy;
       dbPathEl.disabled = isCliProxy;
       urlEl.disabled = isCliProxy;
       forceStopEl.disabled = isCliProxy;
@@ -775,3 +780,6 @@
     }
     providerEl.addEventListener('change', syncProviderUi);
     syncProviderUi();
+  </script>
+</body>
+</html>
