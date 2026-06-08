@@ -1,0 +1,11 @@
+{
+  "access_token": "dummy-access-token-for-import-test",
+  "account_id": "fixture-account-1234",
+  "disabled": false,
+  "email": "fixture-user@example.com",
+  "expired": "2026-06-18T11:30:00.000Z",
+  "id_token": "dummy-id-token-for-import-test",
+  "last_refresh": "2026-06-08T11:30:00Z",
+  "refresh_token": "dummy-refresh-token-for-import-test",
+  "type": "codex"
+}
